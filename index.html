@@ -48,13 +48,13 @@
     <div class="reveal">
         <div class="slides">
             <section id="title">
-                <h1 style="text-transform: none;">How did Raft succeed?</h1>
+                <h1 style="font-size: 3em;">How did Raft succeed?</h1>
 
-                <div style="display: flex; justify-content: center;">
+                <div style="display: flex; justify-content: center; align-items: center;">
 
                     <div>
                         <a href="https://raft.github.io">
-                            <img style="height: 300px" src=" logo/annie-sticker.png">
+                            <img style="height: 350px" src=" logo/annie-sticker.png">
                         </a>
                     </div>
 
@@ -65,25 +65,43 @@
                     </div>
                 </div>
 
-                <p>
-                    <small style="text-align: left">
-                        These slides are for an invited lecture in USC's
-                        CSCI-599: Distributed Systems class. The class is
-                        taught by
-                        <a href="https://seojinpark.net/">Professor Seo Jin Park</a>.
+                <footer style="display: flex; justify-content: center;">
+                    <div style="text-align: left; font-size: 0.6em; width: 80%">
 
-                        TODO: license info
-                    </small>
-                </p>
+                        <p style="margin: 0">
+                            These slides are for an invited lecture in USC's
+                            CSCI-599: Distributed Systems class. The class is
+                            taught by
+                            <a href=" https://seojinpark.net/">Professor Seo Jin Park</a>.
+
+                            The <a href="https://github.com/ongardie/raft-success-talk">slides</a>
+                            are copyright 2024 Diego Ongaro, under the
+                            <a href="https://creativecommons.org/licenses/by/4.0/">Creative
+                                Commons Attribution-4.0 International License</a>.
+
+                            The <a href="https://github.com/raft/logo">Raft logo</a>
+                            is copyright 2015 Andrea Ruygt, under the
+                            <a href="https://creativecommons.org/licenses/by/4.0/">Creative
+                                Commons Attribution-4.0 International License</a>.
+
+                            The slides were created using <a href="https://revealjs.com/">reveal.js</a>.
+                            On web on desktop, press <code>?</code> for help navigating.
+
+                            The slides are available at <a href="https://ongardie.github.io/raft-talk-archive/2024/usc/"
+                                style="white-space: nowrap">https://ongardie.github.io/raft-talk-archive/2024/usc/</a>.
+                        </p>
+                    </div>
+                </footer>
             </section>
 
             <section id="measures" data-markdown>
                 <textarea data-template>
                 ## Some measures of success
-                - Citations: 3,650 (per [Google Scholar](https://scholar.google.com/citations?view_op=view_citation&hl=en&user=oBe2P2EAAAAJ&citation_for_view=oBe2P2EAAAAJ:2osOgNQ5qMEC))
-                - Universities: 24 (per [web site](https://github.com/raft/raft.github.io/blob/main/index.html), not including USC!)
-                - Implementations: 148 (per [web site](https://github.com/raft/raft.github.io/blob/main/implementations.json))
-                - [raft-dev](https://groups.google.com/forum/#!forum/raft-dev) mailing list: 1,191 members, 469 threads
+                - 3,650 paper citations (per [Google Scholar](https://scholar.google.com/citations?view_op=view_citation&hl=en&user=oBe2P2EAAAAJ&citation_for_view=oBe2P2EAAAAJ:2osOgNQ5qMEC))
+                - 988 GitHub stars on [dissertation](https://github.com/ongardie/dissertation)
+                - 24 universities (per [web site](https://github.com/raft/raft.github.io/blob/main/index.html), not including USC!)
+                - 148 implementations (per [web site](https://github.com/raft/raft.github.io/blob/main/implementations.json))
+                - 1,191 members and 469 threads on [raft-dev](https://groups.google.com/forum/#!forum/raft-dev) mailing list
                 </textarea>
             </section>
 
@@ -91,9 +109,9 @@
                 <textarea data-template>
                     ## Outline
 
-                    - [Raft origins timeline](#/timeline)
-                    - [Contributing factors to success](#/factors)
-                    - [Many ways to fail](#/failing)
+                    1. [Raft origins timeline](#/timeline)
+                    2. [Contributing factors to success](#/factors)
+                    3. [Many ways to fail](#/failing)
                 </textarea>
             </section>
 
@@ -102,11 +120,21 @@
 
                 <dl class="compact">
                     <div>
-                        <dt>2011-09</dt>
+                        <dt>2009-09</dt>
+                        <dd>Started CS PhD program at Stanford</dd>
+                    </div>
+
+                    <div class="fragment">
+                        <dt>2009-10</dt>
+                        <dd>Joined <a href="https://github.com/PlatformLab/RAMCloud">RAMCloud</a> project</dd>
+                    </div>
+
+                    <div class="fragment">
+                        <dt>2011-10</dt>
                         <dd>
-                            Some <a href="https://github.com/PlatformLab/RAMCloud">RAMCloud</a> cleanup (<a
-                                href="https://github.com/PlatformLab/RAMCloud/commit/217abc0b1e6afcdb6c42f0475b0e47c2fdefc308">removing
-                                globals</a>)
+                            <a href="https://web.stanford.edu/~ouster/cgi-bin/papers/ramcloud-recovery.pdf">Fast
+                                Crash Recovery in RAMCloud</a> published in SOSP
+                            2011
                         </dd>
                     </div>
 
@@ -121,8 +149,14 @@
                             recovery
                         </dd>
                     </div>
+                </dl>
+            </section>
 
-                    <div class="fragment">
+            <section>
+                <h3>Timeline (2)</h3>
+
+                <dl class="compact">
+                    <div>
                         <dt>2011-12</dt>
                         <dd>
                             First commits on <a href="https://github.com/logcabin/logcabin">LogCabin</a>
@@ -133,10 +167,11 @@
                         <dt>2012-03</dt>
                         <dd>
                             <blockquote class="compact">
-                                [I] read Paxos Made Simple again [...] it's still
-                                not clear to me what to propose to get multiple
-                                rounds to happen. I probably need to think about it
-                                some more or read about multipaxos.
+                                [I] read <a href="https://lamport.azurewebsites.net/pubs/paxos-simple.pdf">Paxos Made
+                                    Simple</a> again [...] it's still not clear
+                                to me what to propose to get multiple rounds to
+                                happen. I probably need to think about it some
+                                more or read about multipaxos.
                             </blockquote>
                         </dd>
                     </div>
@@ -162,18 +197,19 @@
                     <div class="fragment">
                         <dt>2012-09</dt>
                         <dd>
-                            <a href="https://groups.google.com/g/raft-dev/c/95rZqptGpmU">Chose the name "Raft"</a> and
+                            <a href="https://groups.google.com/g/raft-dev/c/95rZqptGpmU">Chose the name "Raft"</a>
+                        </dd>
+                        <dd>
                             <a
-                                href="https://github.com/logcabin/logcabin/commit/51773c3af76c503d8a336cb03aa24ee1b9d7e4f3">added
-                                Raft to
-                                LogCabin</a>
+                                href="https://github.com/logcabin/logcabin/commit/51773c3af76c503d8a336cb03aa24ee1b9d7e4f3">Added
+                                Raft to LogCabin</a>
                         </dd>
                     </div>
                 </dl>
             </section>
 
             <section>
-                <h3>Timeline (2)</h3>
+                <h3>Timeline (3)</h3>
 
                 <dl class="compact">
                     <div>
@@ -188,20 +224,29 @@
 
                     <div class="fragment">
                         <dt>2013-02</dt>
-                        <dd><a href="https://www.scs.stanford.edu/~dm/">David Mazières</a> found a critical bug
-                            (committing entries from previous terms)</dd>
+                        <dd>
+                            <a href="https://www.scs.stanford.edu/~dm/">David Mazières</a>
+                            found a critical bug (committing entries from
+                            previous terms)
+                        </dd>
                     </div>
 
                     <div class="fragment">
                         <dt>2013-03</dt>
-                        <dd>Raft user study</dd>
-                        <dd>Submitted to SOSP 2013</dd>
+                        <dd>
+                            <a href="https://ongardie.net/static/raft/userstudy/">Raft user study</a>
+                            and submitted to SOSP 2013
+                        </dd>
                     </div>
 
                     <div class="fragment">
                         <dt>2013-04</dt>
-                        <dd><a href="https://x.com/Werner/status/321851996971872257">Werner Vogels tweet</a></dd>
-                        <dd>Ben Johnson started <a href="https://github.com/goraft/raft">go-raft</a></dd>
+                        <dd style="margin: -1.5em 0 -0.5em 4em">
+                            <a href="https://x.com/Werner/status/321851996971872257"><img src="werner-tweet.png"
+                                    height="200px"></a>
+                        </dd>
+                        <dd>Ben Johnson started <a href=" https://github.com/goraft/raft">go-raft</a>
+                        </dd>
                     </div>
 
                     <div class="fragment">
@@ -212,12 +257,15 @@
             </section>
 
             <section>
-                <h3>Timeline (3)</h3>
+                <h3>Timeline (4)</h3>
 
                 <dl class="compact">
                     <div>
                         <dt>2013-07</dt>
-                        <dd>Outside talk by Patrick Van Stee</dd>
+                        <dd>
+                            Outside <a href="https://speakerdeck.com/vanstee/consensus-an-introduction-to-raft">talk</a>
+                            by Patrick Van Stee
+                        </dd>
                         <dd>Added snapshotting to LogCabin</dd>
                     </div>
 
@@ -228,7 +276,10 @@
 
                     <div class="fragment">
                         <dt>2013-10</dt>
-                        <dd>Diego gave talk at RICON West industry conference</dd>
+                        <dd>
+                            Diego gave <a href="https://youtu.be/06cTPhi-3_8">talk</a>
+                            at RICON West industry conference
+                        </dd>
                     </div>
 
                     <div class="fragment">
@@ -239,7 +290,7 @@
             </section>
 
             <section>
-                <h3>Timeline (4)</h3>
+                <h3>Timeline (5)</h3>
 
                 <dl class="compact">
                     <div>
@@ -254,35 +305,26 @@
 
                     <div class="fragment">
                         <dt>2014-05</dt>
-                        <dd>PhD defense (using RaftScope)</dd>
+                        <dd>PhD defense (using <a href="https://raft.github.io/#raftscope">RaftScope</a>)</dd>
                     </div>
 
                     <div class="fragment">
                         <dt>2014-06</dt>
-                        <dd>USENIX ATC presentation, Best Paper award</dd>
+                        <dd>
+                            <a href="https://www.usenix.org/conference/atc14/technical-sessions/presentation/ongaro">USENIX
+                                ATC presentation</a>, Best Paper award
+                        </dd>
                     </div>
 
                     <div class="fragment">
                         <dt>2014-09</dt>
                         <dd>
                             Completed <a href="https://github.com/ongardie/dissertation">dissertation</a>
-                            (try2.pdf)
+                            (<a
+                                href="https://searchworks.stanford.edu/view/10608105">cameraready-try2-augmented.pdf</a>)
                         </dd>
-                    </div>
-
-                    <div class="fragment">
-                        <dt>2014-09</dt>
                         <dd>Productionizing LogCabin for
                             <a href="https://www.scalecomputing.com/">Scale Computing</a>
-                        </dd>
-                    </div>
-
-                    <div class="fragment">
-                        <dt>2015-05</dt>
-                        <dd>Huanchen Zhang and Brandon Amos found <a
-                                href="https://groups.google.com/g/raft-dev/c/t4xj6dJTP6E/m/d2D9LrWRza8J">bug in
-                                dissertation membership
-                                changes</a>
                         </dd>
                     </div>
 
@@ -293,22 +335,12 @@
                 </dl>
             </section>
 
-            <section id="factors" data-markdown>
-                <textarea data-template>
-                ## Contributing factors to Raft's success
-                - Definition of success
-                - Good timing
-                - Early community of users/evangelists
-                - Perseverance
-                - Coding and writing simultaneously
-                - Optimizing for understandability
-                - Complete package for systems builder
-                - Lower investment to implement
-                </textarea>
+            <section id="factors">
+                <h2>Contributing factors to Raft's success</h2>
             </section>
 
             <section>
-                <h2>Definition of success</h2>
+                <h2>Hierarchy of success</h2>
 
                 <div style="display: flex; justify-content: space-evenly; margin-top: 2em">
                     <div>
@@ -337,12 +369,10 @@
                 <textarea data-template>
                 ## Good timing
 
-                - Paxos was [published](https://dl.acm.org/doi/10.1145/279227.279229) in 1998
+                - Paxos was [published](https://dl.acm.org/doi/10.1145/279227.279229) in 1998 (submitted in 1990)
                 - We stumbled on a problem that other people were running into
                 - Lots of distributed systems investment in the 2010s (cloud, big data)
                 - Many systems needed consensus, but ZooKeeper was the only open option
-                - Increase your odds by building, digging deep, and not accepting workarounds
-
                 </textarea>
             </section>
 
@@ -366,9 +396,9 @@
                     <ul class="cons">
                         <li>3 paper rejections</li>
                         <li>Reviewers wanted user study, then didn't believe user study</li>
+                        <li>Raft is not that <em>novel</em></li>
                         <li>David Mazières' critical bug</li>
                         <li>So many iterations</li>
-                        <li>Raft is not that <em>novel</em></li>
                     </ul>
 
                     <ul class="pros fragment">
@@ -437,30 +467,104 @@
                 - Companies can only invest so much before releasing a product
                 - Before, major research project to understand Paxos/VR/ZAB, implement it, fill in gaps
                 - Clear roadmap with Raft: understandable and complete package
-                - Deceptively short roadmap?
+                - Can fork an existing implementation for a head start
                 </textarea>
             </section>
 
+            <section id="factors" data-markdown>
+                <textarea data-template>
+                ## Recap: contributing factors to Raft's success
+                - Hierarchy of success
+                - Good timing
+                - Early community of users/evangelists
+                - Perseverance
+                - Coding and writing simultaneously
+                - Optimizing for understandability
+                - Complete package for systems builder
+                - Lower investment to implement
+                </textarea>
+            </section>
+
+
             <section id="failing" data-markdown>
                 <textarea data-template>
-                ## Many ways to fail (to find users)
+                ## Failing
 
-                - Use an unpopular ecosystem
-                    - LogCabin used custom RPCs and C++. 2010s startups
-                      used HTTP/JSON and Go
-                - Keep it to yourself
-                - Don't connect the dots to the company's business
-                    - Companies need to see value quickly or may stop investing
-                - Make adoption difficult
-                    - Poor docs, tough migrations
-                - Make adoption risky
-                    - Employer offered to store critical data in a
-                      self-destructing way
-                - Find a niche too small
-                    - My ZooKeeper clone
-                      ([Ark](https://github.com/ongardie/ark), 2017) wasn't
-                      likely to appeal to enough users
+                <div style="display: flex; justify-content: center;">
+                <div style="text-align: left">
+
+                After Raft:
+                - I joined industry
+                - I developed many systems
+                - I failed (to find users) many times
+
+                Failing sucks:
+                - It takes almost as much work as success
+                - It lacks the rewards
+
+                Please learn from my misfortune
+                </div>
+                </div>
                 </textarea>
+            </section>
+
+            <section>
+                <h2>Many ways to fail (to find users)</h2>
+
+                <ul>
+                    <li>
+                        Use an unpopular ecosystem
+                        <ul>
+                            <li>
+                                LogCabin used custom RPCs and C++. 2010s startups
+                                used HTTP/JSON and Go
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="fragment">
+                        Keep it to yourself too long
+                        <ul>
+                            <li>
+                                <a href="https://github.com/ongardie/cubicle">Cubicle</a>
+                                is quietly public
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="fragment">
+                        Don't connect the dots to the company's business
+                        <ul>
+                            <li>Dispatch board brought value to users, not company</li>
+                        </ul>
+                    </li>
+                    <li class="fragment">
+                        Make adoption difficult
+                        <ul>
+                            <li>
+                                <a href="https://github.com/salesforce/runway-browser">Runway</a>
+                                asked users to learn a poorly-documented
+                                specification language
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="fragment">
+                        Make adoption risky
+                        <ul>
+                            <li>
+                                Employer offered to store critical data in a
+                                self-destructing way
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="fragment">
+                        Find a market/niche too small
+                        <ul>
+                            <li>
+                                <a href="https://github.com/ongardie/ark">Ark</a>
+                                wasn't likely to appeal to enough users
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
             </section>
 
             <section data-markdown>
@@ -470,7 +574,7 @@
                 - Learn lots, teach others
                 - Discover problems/ideas
                 - Make friends
-                - Get paid
+                - Get paid (for a while)
                 </textarea>
             </section>
 
@@ -498,6 +602,21 @@
 
                 [raft-dev](https://groups.google.com/forum/#!forum/raft-dev)
                 for technical Raft questions
+                </textarea>
+            </section>
+
+            <section data-markdown>
+                <textarea data-template>
+                ## Questions for the audience
+
+                - Is the Google Group/mailing list intimidating to Gen Z?
+                  What's the right platform?
+
+                - This is v1 of this talk. How can I improve it?
+
+                - What success factors are missing?
+
+                - Why are there so many implementations of Raft?
                 </textarea>
             </section>
         </div>
