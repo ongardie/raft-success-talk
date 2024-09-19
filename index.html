@@ -15,13 +15,31 @@
     <link rel="stylesheet" href="reveal.js/plugin/highlight/monokai.css">
 
     <style>
+        blockquote.compact {
+            margin: 0;
+            width: 100%;
+        }
+
         dl.compact dt {
             font-size: 0.8em;
         }
 
-        blockquote.compact {
-            margin: 0;
-            width: 100%;
+        ul.cons {
+            list-style: '—';
+        }
+
+        ul.pros {
+            list-style: '+';
+        }
+
+        ul.cons li::marker,
+        ul.pros li::marker {
+            font-weight: bold;
+        }
+
+        ul.cons li,
+        ul.pros li {
+            padding-left: 0.5em;
         }
     </style>
 </head>
@@ -154,7 +172,7 @@
                 </dl>
             </section>
 
-            <section id="timeline2">
+            <section>
                 <h3>Timeline (2)</h3>
 
                 <dl class="compact">
@@ -193,7 +211,7 @@
                 </dl>
             </section>
 
-            <section id="timeline3">
+            <section>
                 <h3>Timeline (3)</h3>
 
                 <dl class="compact">
@@ -220,7 +238,7 @@
                 </dl>
             </section>
 
-            <section id="timeline4">
+            <section>
                 <h3>Timeline (4)</h3>
 
                 <dl class="compact">
@@ -275,10 +293,197 @@
                 </dl>
             </section>
 
-            <section id="factors">
+            <section id="factors" data-markdown>
+                <textarea data-template>
+                ## Contributing factors to Raft's success
+                - Definition of success
+                - Good timing
+                - Early community of users/evangelists
+                - Perseverance
+                - Coding and writing simultaneously
+                - Optimizing for understandability
+                - Complete package for systems builder
+                - Lower investment to implement
+                </textarea>
             </section>
 
-            <section id="failing">
+            <section>
+                <h2>Definition of success</h2>
+
+                <div style="display: flex; justify-content: space-evenly; margin-top: 2em">
+                    <div>
+                        <div style="font-size: 2em">values</div>
+                        <div>understandability</div>
+                    </div>
+
+                    <div style="font-size: 2em">&gt;</div>
+
+                    <div>
+                        <div style="font-size: 2em">concepts</div>
+                        <div>Raft</div>
+                    </div>
+
+                    <div style="font-size: 2em">&gt;</div>
+
+                    <div>
+                        <div style="font-size: 2em">code</div>
+                        <div>LogCabin</div>
+                    </div>
+                </div>
+
+            </section>
+
+            <section data-markdown>
+                <textarea data-template>
+                ## Good timing
+
+                - Paxos was [published](https://dl.acm.org/doi/10.1145/279227.279229) in 1998
+                - We stumbled on a problem that other people were running into
+                - Lots of distributed systems investment in the 2010s (cloud, big data)
+                - Many systems needed consensus, but ZooKeeper was the only open option
+                - Increase your odds by building, digging deep, and not accepting workarounds
+
+                </textarea>
+            </section>
+
+            <section data-markdown>
+                <textarea data-template>
+                ## Early community of users/evangelists
+
+                - We posted early paper drafts, lectures, and LogCabin code
+                - It was broken, and we kept changing it!
+                - People ran meetups, conference talks
+                - People wanted to make the best implementation
+                - Other people did most of our marketing
+                </textarea>
+            </section>
+
+
+            <section>
+                <h2>Perseverance</h2>
+
+                <div style="display: flex;">
+                    <ul class="cons">
+                        <li>3 paper rejections</li>
+                        <li>Reviewers wanted user study, then didn't believe user study</li>
+                        <li>David Mazières' critical bug</li>
+                        <li>So many iterations</li>
+                        <li>Raft is not that <em>novel</em></li>
+                    </ul>
+
+                    <ul class="pros fragment">
+                        <li>Industry uptick</li>
+                        <li>Reviewers seemed to like it?</li>
+                        <li>John Ousterhout is an optimist</li>
+                    </ul>
+                </div>
+            </section>
+
+            <section data-markdown>
+                <textarea data-template>
+                ## Coding and writing simultaneously
+
+                - Paper and code benefit from each other
+                    - Writing generates more understandable ideas
+                    - Code/tests uncover bugs, omissions, and complexity
+                - Paper before code can be tricky or awkward
+                    - ∃ a proposal number such that...
+                - Paper following code can be hard to explain or motivate
+                    - When you come up with better ideas in writing, you should
+                      apply them!
+                    - [LogCabin example](https://github.com/logcabin/logcabin/commit/f672766cfb3432f2cecbe112d1e015c8003b93ff):
+                      <blockquote class="compact">
+                        [N]ow a leader determine[s] where a follower's log
+                        diverges by stepping back one entry at a time. This has
+                        better conceptual integrity than the old algorithm,
+                        which fetched some information during RequestVote.
+                      </blockquote>
+                </textarea>
+            </section>
+
+            <section data-markdown>
+                <textarea data-template>
+                ## Optimizing for understandability
+
+                - Projects should optimize for something
+                  - Leads to interesting research
+                  - Helps make engineering trade-offs
+                - Optimizing for understandability benefits adoption
+                  - More people can learn the thing, then they use and spread it
+                - If people understand it, they can extend it for their needs
+                - Understandability should always be *a* goal (not always *the* goal)
+                </textarea>
+            </section>
+
+            <section data-markdown>
+                <textarea data-template>
+                ## Complete package for systems builder
+
+                - Consensus algorithm
+                - Membership changes, log compaction, client interaction
+                - Paper with cheatsheet, dissertation, video lectures
+                - Visualizations ([The Secret Lives of Data](https://thesecretlivesofdata.com/raft/) and RaftScope)
+                - Many implementations
+                - Formal spec, proofs
+                - Liveness and performance analysis
+                - Mailing list for Q&A
+                </textarea>
+            </section>
+
+            <section data-markdown>
+                <textarea data-template>
+                ## Lower investment to implement
+
+                - Companies can only invest so much before releasing a product
+                - Before, major research project to understand Paxos/VR/ZAB, implement it, fill in gaps
+                - Clear roadmap with Raft: understandable and complete package
+                - Deceptively short roadmap?
+                </textarea>
+            </section>
+
+            <section id="failing" data-markdown>
+                <textarea data-template>
+                ## Many ways to fail (to find users)
+
+                - Use an unpopular ecosystem
+                    - LogCabin used custom RPCs and C++. 2010s startups
+                      used HTTP/JSON and Go
+                - Keep it to yourself
+                - Don't connect the dots to the company's business
+                    - Companies need to see value quickly or may stop investing
+                - Make adoption difficult
+                    - Poor docs, tough migrations
+                - Make adoption risky
+                    - Employer offered to store critical data in a
+                      self-destructing way
+                - Find a niche too small
+                    - My ZooKeeper clone
+                      ([Ark](https://github.com/ongardie/ark), 2017) wasn't
+                      likely to appeal to enough users
+                </textarea>
+            </section>
+
+            <section data-markdown>
+                <textarea data-template>
+                ## Failures can still be useful
+
+                - Learn lots, teach others
+                - Discover problems/ideas
+                - Make friends
+                - Get paid
+                </textarea>
+            </section>
+
+            <section id="conclusion" data-markdown>
+                <textarea data-template>
+                ## Conclusion
+
+                - We stumbled into Raft (via LogCabin via RAMCloud)
+                - We optimized for understandability
+                - We targeted systems builders
+                - Raft resonated with many others
+                - I'm still looking to reproduce this level of impact
+                </textarea>
             </section>
         </div>
     </div>
@@ -286,7 +491,7 @@
     <script src="reveal.js/dist/reveal.js"></script>
     <script src="reveal.js/plugin/notes/notes.js"></script>
     <script src="reveal.js/plugin/markdown/markdown.js"></script>
-    <script src="reveal.js/plugin/highlight/highlight.js"></script>
+    <!-- <script src="reveal.js/plugin/highlight/highlight.js"></script> -->
     <script>
         // More info about initialization & config:
         // - https://revealjs.com/initialization/
@@ -295,10 +500,16 @@
             hash: true,
 
             // Learn about plugins: https://revealjs.com/plugins/
-            plugins: [RevealMarkdown, RevealHighlight, RevealNotes],
+            plugins: [
+                // RevealHighlight,
+                RevealMarkdown,
+                RevealNotes,
+            ],
 
             width: 1600,
             height: 900,
+
+            slideNumber: 'c/t',
         });
     </script>
 </body>
