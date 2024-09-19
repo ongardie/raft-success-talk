@@ -13,12 +13,23 @@
 
     <!-- Theme used for syntax highlighted code -->
     <link rel="stylesheet" href="reveal.js/plugin/highlight/monokai.css">
+
+    <style>
+        dl.compact dt {
+            font-size: 0.8em;
+        }
+
+        blockquote.compact {
+            margin: 0;
+            width: 100%;
+        }
+    </style>
 </head>
 
 <body>
     <div class="reveal">
         <div class="slides">
-            <section>
+            <section id="title">
                 <h1 style="text-transform: none;">How did Raft succeed?</h1>
 
                 <div style="display: flex; justify-content: center;">
@@ -42,11 +53,231 @@
                         CSCI-599: Distributed Systems class. The class is
                         taught by
                         <a href="https://seojinpark.net/">Professor Seo Jin Park</a>.
+
+                        TODO: license info
                     </small>
                 </p>
             </section>
 
-            <section>Slide 2</section>
+            <section id="outline" data-markdown>
+                <textarea data-template>
+                    ## Outline
+
+                    - [Raft origins timeline](#/timeline)
+                    - [Measures of success](#/measures)
+                    - [Contributing factors to success](#/factors)
+                    - [Many ways to fail](#/failing)
+                </textarea>
+            </section>
+
+            <section id="timeline">
+                <h3>Timeline (1)</h3>
+
+                <dl class="compact">
+                    <div>
+                        <dt>2011-09</dt>
+                        <dd>
+                            Some <a href="https://github.com/PlatformLab/RAMCloud">RAMCloud</a> cleanup (<a
+                                href="https://github.com/PlatformLab/RAMCloud/commit/217abc0b1e6afcdb6c42f0475b0e47c2fdefc308">removing
+                                globals</a>)
+                        </dd>
+                    </div>
+
+                    <div class="fragment">
+                        <dt>2011-11</dt>
+                        <dd>
+                            Released <a href="https://github.com/ongardie/dumpstr">dumpstr</a> for
+                            RAMCloud crash recovery metrics
+                        </dd>
+                        <dd>
+                            Looking at <a href="https://zookeeper.apache.org/">ZooKeeper</a> for coordinator crash
+                            recovery
+                        </dd>
+                    </div>
+
+                    <div class="fragment">
+                        <dt>2011-12</dt>
+                        <dd>
+                            First commits on <a href="https://github.com/logcabin/logcabin">LogCabin</a>
+                        </dd>
+                    </div>
+
+                    <div class="fragment">
+                        <dt>2012-03</dt>
+                        <dd>
+                            <blockquote class="compact">
+                                [I] read Paxos Made Simple again [...] it's still
+                                not clear to me what to propose to get multiple
+                                rounds to happen. I probably need to think about it
+                                some more or read about multipaxos.
+                            </blockquote>
+                        </dd>
+                    </div>
+
+                    <div class="fragment">
+                        <dt>2012-04</dt>
+                        <dd>
+                            John wrote the <a
+                                href="https://ramcloud.atlassian.net/wiki/spaces/RAM/pages/6848742/The+ALPO+consensus+protocol">ALPO
+                                wiki page</a>
+                        </dd>
+                    </div>
+
+                    <div class="fragment">
+                        <dt>2012-06</dt>
+                        <dd>
+                            <blockquote class="compact">
+                                Working on Paxos protocol. Just started to implement ALPO
+                            </blockquote>
+                        </dd>
+                    </div>
+
+                    <div class="fragment">
+                        <dt>2012-09</dt>
+                        <dd>
+                            <a href="https://groups.google.com/g/raft-dev/c/95rZqptGpmU">Chose the name "Raft"</a> and
+                            <a
+                                href="https://github.com/logcabin/logcabin/commit/51773c3af76c503d8a336cb03aa24ee1b9d7e4f3">added
+                                Raft to
+                                LogCabin</a>
+                        </dd>
+                    </div>
+                </dl>
+            </section>
+
+            <section id="timeline2">
+                <h3>Timeline (2)</h3>
+
+                <dl class="compact">
+                    <div>
+                        <dt>2012-09</dt>
+                        <dd>Submitted to NSDI 2013</dd>
+                    </div>
+
+                    <div class="fragment">
+                        <dt>2012-12</dt>
+                        <dd>Rejected from NSDI 2013</dd>
+                    </div>
+
+                    <div class="fragment">
+                        <dt>2013-02</dt>
+                        <dd><a href="https://www.scs.stanford.edu/~dm/">David Mazières</a> found a critical bug
+                            (committing entries from previous terms)</dd>
+                    </div>
+
+                    <div class="fragment">
+                        <dt>2013-03</dt>
+                        <dd>Raft user study</dd>
+                        <dd>Submitted to SOSP 2013</dd>
+                    </div>
+
+                    <div class="fragment">
+                        <dt>2013-04</dt>
+                        <dd><a href="https://x.com/Werner/status/321851996971872257">Werner Vogels tweet</a></dd>
+                        <dd>Ben Johnson started <a href="https://github.com/goraft/raft">go-raft</a></dd>
+                    </div>
+
+                    <div class="fragment">
+                        <dt>2013-06</dt>
+                        <dd>Rejected from SOSP 2013</dd>
+                    </div>
+                </dl>
+            </section>
+
+            <section id="timeline3">
+                <h3>Timeline (3)</h3>
+
+                <dl class="compact">
+                    <div>
+                        <dt>2013-07</dt>
+                        <dd>Outside talk by Patrick Van Stee</dd>
+                        <dd>Added snapshotting to LogCabin</dd>
+                    </div>
+
+                    <div class="fragment">
+                        <dt>2013-09</dt>
+                        <dd>Submitted to NSDI 2014</dd>
+                    </div>
+
+                    <div class="fragment">
+                        <dt>2013-10</dt>
+                        <dd>Diego gave talk at RICON West industry conference</dd>
+                    </div>
+
+                    <div class="fragment">
+                        <dt>2013-12</dt>
+                        <dd>Rejected from NSDI 2014</dd>
+                    </div>
+                </dl>
+            </section>
+
+            <section id="timeline4">
+                <h3>Timeline (4)</h3>
+
+                <dl class="compact">
+                    <div>
+                        <dt>2014-01</dt>
+                        <dd>Submitted to USENIX ATC 2014</dd>
+                    </div>
+
+                    <div class="fragment">
+                        <dt>2014-04</dt>
+                        <dd>Accepted to USENIX ATC 2014</dd>
+                    </div>
+
+                    <div class="fragment">
+                        <dt>2014-05</dt>
+                        <dd>PhD defense (using RaftScope)</dd>
+                    </div>
+
+                    <div class="fragment">
+                        <dt>2014-06</dt>
+                        <dd>USENIX ATC presentation, Best Paper award</dd>
+                    </div>
+
+                    <div class="fragment">
+                        <dt>2014-09</dt>
+                        <dd>
+                            Completed <a href="https://github.com/ongardie/dissertation">dissertation</a>
+                            (try2.pdf)
+                        </dd>
+                    </div>
+
+                    <div class="fragment">
+                        <dt>2014-09</dt>
+                        <dd>Productionizing LogCabin for
+                            <a href="https://www.scalecomputing.com/">Scale Computing</a>
+                        </dd>
+                    </div>
+
+                    <div class="fragment">
+                        <dt>2015-05</dt>
+                        <dd>Huanchen Zhang and Brandon Amos found <a
+                                href="https://groups.google.com/g/raft-dev/c/t4xj6dJTP6E/m/d2D9LrWRza8J">bug in
+                                dissertation membership
+                                changes</a>
+                        </dd>
+                    </div>
+
+                    <div class="fragment">
+                        <dt>2015-07</dt>
+                        <dd>Scale Computing shipping LogCabin to production</dd>
+                    </div>
+                </dl>
+            </section>
+
+            <section id="measures">
+                implementations
+                citations
+                industry conferences
+                schools teaching
+            </section>
+
+            <section id="factors">
+            </section>
+
+            <section id="failing">
+            </section>
         </div>
     </div>
 
@@ -62,7 +293,10 @@
             hash: true,
 
             // Learn about plugins: https://revealjs.com/plugins/
-            plugins: [RevealMarkdown, RevealHighlight, RevealNotes]
+            plugins: [RevealMarkdown, RevealHighlight, RevealNotes],
+
+            width: 1600,
+            height: 900,
         });
     </script>
 </body>
